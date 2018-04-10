@@ -1,0 +1,32 @@
+/*
+ * This file is part of IntelTurboBoost-Check.
+ * Copyright (C) 2018 by Christian Ponte
+ *
+ * IntelTurboBoost-Check is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * IntelTurboBoost-Check is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with IntelTurboBoost-Check. If not, see <http://www.gnu.org/licenses/>.
+ */
+
+//
+// Created by christian on 10/04/18.
+//
+
+#ifndef INTELTURBOBOOST_CHECK_DEFINITIONS_H
+#define INTELTURBOBOOST_CHECK_DEFINITIONS_H
+
+#define cpuinfo 1
+#define PCM 2
+#define FREQ_READER_IMPLEMENTATION ${FREQ_READER_IMPLEMENTATION}
+#if FREQ_READER_IMPLEMENTATION == PCM
+#define PCM_EXECUTABLE_PATH "${PCM_EXECUTABLE_PATH}"
+#endif
+#endif //INTELTURBOBOOST_CHECK_DEFINITIONS_H

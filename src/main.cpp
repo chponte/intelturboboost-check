@@ -1,7 +1,5 @@
 #include "ThreadSpawner.h"
-#include "FrequencyReader.h"
-#include "CPUInfoFrequencyReader.h"
-#include "PCMFrequencyReader.h"
+#include "FrequencyReaderBuilder.h"
 #include <iostream>
 
 int main(int argc, const char **argv) {
@@ -16,8 +14,7 @@ int main(int argc, const char **argv) {
 
     ThreadSpawner spawner;
 
-    FrequencyReader *reader = new CPUInfoFrequencyReader(cores);
-    //FrequencyReader *reader = new PCMFrequencyReader(cores);
+    FrequencyReader *reader = FrequencyReaderBuilder::build(cores);
 
     auto frequencies = reader->get_frequencies();
     for (int i = 0; i < cores.size(); i++) {
