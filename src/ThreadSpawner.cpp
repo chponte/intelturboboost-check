@@ -2,10 +2,7 @@
 // Created by christian on 27/03/18.
 //
 
-#include <vector>
-#include <iostream>
 #include "ThreadSpawner.h"
-
 
 ThreadSpawner::~ThreadSpawner() {
     while (!threads.empty()) {

@@ -8,7 +8,6 @@
 #include <thread>
 #include <vector>
 
-
 class ThreadSpawner {
 public:
     ~ThreadSpawner();
