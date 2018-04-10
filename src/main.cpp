@@ -16,10 +16,10 @@ int main(int argc, const char **argv) {
 
     ThreadSpawner spawner;
 
-    FrequencyReader *reader = new CPUInfoFrequencyReader();
-    //FrequencyReader *reader = new PCMFrequencyReader();
+    FrequencyReader *reader = new CPUInfoFrequencyReader(cores);
+    //FrequencyReader *reader = new PCMFrequencyReader(cores);
 
-    auto frequencies = reader->get_frequencies(cores);
+    auto frequencies = reader->get_frequencies();
     for (int i = 0; i < cores.size(); i++) {
         std::cout << "Core " + std::to_string(cores[i]) + ": " + std::to_string(frequencies[i]) + " MHz" << std::endl;
     }
@@ -28,7 +28,7 @@ int main(int argc, const char **argv) {
         spawner.spawn(c);
         std::this_thread::sleep_for(std::chrono::milliseconds(freq_update_time));
 
-        frequencies = reader->get_frequencies(cores);
+        frequencies = reader->get_frequencies();
         for (int i = 0; i < cores.size(); i++) {
             std::cout << "Core " + std::to_string(cores[i]) + ": " + std::to_string(frequencies[i]) + " MHz"
                       << std::endl;
