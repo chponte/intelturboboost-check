@@ -12,4 +12,4 @@ configure_file(Definitions.h.in ${PROJECT_BINARY_DIR}/src/Definitions.h)
 
 include_directories(${PROJECT_BINARY_DIR}/src/)
 add_executable(itb-check main.cpp ThreadSpawner.cpp ThreadSpawner.h FrequencyReader.h FrequencyReaderBuilder.h ${FREQ_READER_SOURCES})
-target_link_libraries(itb-check "${CMAKE_THREAD_LIBS_INIT}")
+target_link_libraries(itb-check "${CMAKE_THREAD_LIBS_INIT}" argh)

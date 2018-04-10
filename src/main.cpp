@@ -1,23 +1,37 @@
-#include "ThreadSpawner.h"
+#include "argh.h"
 #include "FrequencyReaderBuilder.h"
+#include "ThreadSpawner.h"
 #include <iostream>
 
 int main(int argc, const char **argv) {
-    if (argc < 2) {
+    argh::parser args({"-u", "--update-time"});
+    args.parse(argc, argv);
+
+    if (args[0].empty()){
         std::cout << "Error" << std::endl;
         return 0;
     }
 
-    constexpr unsigned freq_update_time = 10000;
+    // Read core IDs from positional args
+    std::vector<unsigned short> cores;
+    int i = 1;
+    while (!args[i].empty()) {
+        cores.push_back((unsigned short) std::stoi(args[i++]));
+    }
+    std::cout << cores.size() << std::endl;
+    for (auto c : cores){
+        std::cout << c << std::endl;
+    }
 
-    const std::vector<unsigned short> cores{0};
+    // Read frequency update time
+    unsigned freq_update_time;
+    args({"-u", "--update-time"}, 10000) >> freq_update_time;
 
     ThreadSpawner spawner;
-
     FrequencyReader *reader = FrequencyReaderBuilder::build(cores);
 
     auto frequencies = reader->get_frequencies();
-    for (int i = 0; i < cores.size(); i++) {
+    for (i = 0; i < cores.size(); i++) {
         std::cout << "Core " + std::to_string(cores[i]) + ": " + std::to_string(frequencies[i]) + " MHz" << std::endl;
     }
 
@@ -26,7 +40,7 @@ int main(int argc, const char **argv) {
         std::this_thread::sleep_for(std::chrono::milliseconds(freq_update_time));
 
         frequencies = reader->get_frequencies();
-        for (int i = 0; i < cores.size(); i++) {
+        for (i = 0; i < cores.size(); i++) {
             std::cout << "Core " + std::to_string(cores[i]) + ": " + std::to_string(frequencies[i]) + " MHz"
                       << std::endl;
         }
