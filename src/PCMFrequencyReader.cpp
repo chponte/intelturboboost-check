@@ -29,13 +29,12 @@
 
 #include "PCMFrequencyReader.h"
 #include <sstream>
-#include <iostream>
 #include <regex>
 
 std::vector<double> PCMFrequencyReader::get_frequencies(const std::vector<unsigned short> &cores) {
     std::stringstream sstream;
 
-    FILE *pipe = popen("sudo /opt/cesga/sistemas/pcm/pcm.x -i=1 0", "r");
+    FILE *pipe = popen("sudo /opt/cesga/sistemas/pcm/pcm.x -i=1 0 2>&1", "r");
     std::array<char, 128> buffer;
     while (fgets(buffer.data(), buffer.size(), pipe) != nullptr){
         sstream << buffer.data();
