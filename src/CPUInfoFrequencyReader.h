@@ -34,8 +34,9 @@
 
 class CPUInfoFrequencyReader : public FrequencyReader {
 public:
-    std::vector<double> get_frequencies(const std::vector<unsigned short> &cores) override;
-};
+    explicit CPUInfoFrequencyReader(const std::vector<unsigned short> &cores) : FrequencyReader(cores) {};
 
+    std::vector<double> get_frequencies() override;
+};
 
 #endif //INTELTURBOBOOST_CHECK_CPUINFOFREQUENCYREADER_H

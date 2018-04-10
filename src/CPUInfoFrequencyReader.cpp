@@ -31,7 +31,7 @@
 #include <fstream>
 #include <regex>
 
-std::vector<double> CPUInfoFrequencyReader::get_frequencies(const std::vector<unsigned short> &cores) {
+std::vector<double> CPUInfoFrequencyReader::get_frequencies() {
     std::vector<double> frequencies;
     std::ifstream cpuinfo("/proc/cpuinfo");
     std::string line;
