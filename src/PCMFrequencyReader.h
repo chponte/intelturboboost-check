@@ -30,13 +30,18 @@
 #ifndef INTELTURBOBOOST_CHECK_PCMFREQUENCYREADER_H
 #define INTELTURBOBOOST_CHECK_PCMFREQUENCYREADER_H
 
-
 #include "FrequencyReader.h"
+#include <string>
 
 class PCMFrequencyReader : public FrequencyReader {
 public:
-    std::vector<double> get_frequencies(const std::vector<unsigned short> &cores) override;
-};
+    PCMFrequencyReader(const std::vector<unsigned short> &cores, const std::string &pcm_path) :
+            FrequencyReader(cores), pcm_cmd("sudo " + pcm_path + " -i=1 0 2>&1") {};
 
+    std::vector<double> get_frequencies() override;
+
+private:
+    const std::string pcm_cmd;
+};
 
 #endif //INTELTURBOBOOST_CHECK_PCMFREQUENCYREADER_H

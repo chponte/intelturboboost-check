@@ -31,12 +31,12 @@
 #include <sstream>
 #include <regex>
 
-std::vector<double> PCMFrequencyReader::get_frequencies(const std::vector<unsigned short> &cores) {
+std::vector<double> PCMFrequencyReader::get_frequencies() {
     std::stringstream sstream;
 
-    FILE *pipe = popen("sudo /opt/cesga/sistemas/pcm/pcm.x -i=1 0 2>&1", "r");
+    FILE *pipe = popen(pcm_cmd.c_str(), "r");
     std::array<char, 128> buffer;
-    while (fgets(buffer.data(), buffer.size(), pipe) != nullptr){
+    while (fgets(buffer.data(), buffer.size(), pipe) != nullptr) {
         sstream << buffer.data();
     }
     pclose(pipe);
@@ -50,7 +50,7 @@ std::vector<double> PCMFrequencyReader::get_frequencies(const std::vector<unsign
     const unsigned long nominal_freq = std::stoul(m[1]);
 
     std::vector<double> frequencies;
-    for (unsigned short c : cores){
+    for (unsigned short c : cores) {
         rexp = std::regex(
                 std::string("^[[:space:]]+") + std::to_string(c) +   // Core ID
                 "[[:space:]]+[[:digit:]]" +                          // SKT
