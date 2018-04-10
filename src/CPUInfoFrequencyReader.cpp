@@ -27,38 +27,26 @@
  *
  */
 
-#include "CpuInfoFrequencyReader.h"
+#include "CPUInfoFrequencyReader.h"
 #include <fstream>
 #include <regex>
 
-double parse_frequency(std::ifstream &pos) {
-    std::string line;
-    std::regex freq_exp("^cpu MHz[[:space:]]+:[[:space:]]+([[:digit:].]+)$", std::regex_constants::extended);
-    std::smatch m;
-
-    while (std::getline(pos, line) && !std::regex_search(line, m, freq_exp));
-
-    return std::stod(m[1]);
-}
-
-std::vector<double> CpuInfoFrequencyReader::get_frequencies(const std::vector<unsigned short> &cores) {
-    std::vector<std::regex> regex_core_identifiers;
+std::vector<double> CPUInfoFrequencyReader::get_frequencies(const std::vector<unsigned short> &cores) {
     std::vector<double> frequencies;
     std::ifstream cpuinfo("/proc/cpuinfo");
     std::string line;
+    std::regex ex;
+    std::smatch m;
 
-    for (unsigned short core : cores) {
-        regex_core_identifiers.emplace_back(std::regex(
-                "^processor[[:space:]]+:[[:space:]]+" + std::to_string(core) + "$",
-                std::regex_constants::extended));
-    }
-
-    while (std::getline(cpuinfo, line)) {
-        for (const std::regex &r : regex_core_identifiers) {
-            if (std::regex_match(line, r)) {
-                frequencies.push_back(parse_frequency(cpuinfo));
-            }
-        }
+    for (auto c : cores) {
+        // Skip to appropriate core block
+        ex = std::regex("^processor[[:space:]]+:[[:space:]]+" + std::to_string(c) + "$",
+                        std::regex_constants::extended);
+        while (std::getline(cpuinfo, line) && !std::regex_match(line, ex));
+        // Look for core frequency
+        ex = std::regex("^cpu MHz[[:space:]]+:[[:space:]]+([[:digit:].]+)$", std::regex_constants::extended);
+        while (std::getline(cpuinfo, line) && !std::regex_search(line, m, ex));
+        frequencies.push_back(std::stod(m[1]));
     }
 
     return frequencies;

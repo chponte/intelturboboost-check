@@ -32,7 +32,7 @@
 
 #include "FrequencyReader.h"
 
-class CpuInfoFrequencyReader : public FrequencyReader {
+class CPUInfoFrequencyReader : public FrequencyReader {
 public:
     std::vector<double> get_frequencies(const std::vector<unsigned short> &cores) override;
 };

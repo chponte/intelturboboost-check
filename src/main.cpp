@@ -1,6 +1,7 @@
 #include "ThreadSpawner.h"
 #include "FrequencyReader.h"
-#include "CpuInfoFrequencyReader.h"
+#include "CPUInfoFrequencyReader.h"
+#include "PCMFrequencyReader.h"
 #include <iostream>
 
 int main(int argc, const char **argv) {
@@ -11,10 +12,12 @@ int main(int argc, const char **argv) {
 
     constexpr unsigned freq_update_time = 10000;
 
-    const std::vector<unsigned short> cores{0, 1, 2, 3};
+    const std::vector<unsigned short> cores{0};
 
     ThreadSpawner spawner;
-    FrequencyReader *reader = new CpuInfoFrequencyReader();
+
+    FrequencyReader *reader = new CPUInfoFrequencyReader();
+    //FrequencyReader *reader = new PCMFrequencyReader();
 
     auto frequencies = reader->get_frequencies(cores);
     for (int i = 0; i < cores.size(); i++) {
