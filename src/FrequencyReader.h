@@ -35,7 +35,12 @@
 
 class FrequencyReader {
 public:
-    virtual std::vector<double> get_frequencies(const std::vector<unsigned short> &cores) = 0;
+    explicit FrequencyReader(const std::vector<unsigned short> &cores) : cores(cores) {};
+
+    virtual std::vector<double> get_frequencies() = 0;
+
+protected:
+    const std::vector<unsigned short> &cores;
 };
 
 #endif //INTELTURBOBOOST_CHECK_FREQUENCYREADER_H
